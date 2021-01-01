@@ -21,6 +21,8 @@ class ForeCastViewModel(
     val isLoading = SingleLiveEvent<Boolean>()
     val errorRes = SingleLiveEvent<Int>()
     val citForecastsLiveData = SingleLiveEvent<List<ForecastEntity>>()
+//    val citForecasts = SingleLiveEvent<CityForeCastStateModel>()
+
 
     fun getFiveDaysForecasts(id: Long) {
         getFiveDaysForecastsUseCase.build(id)
@@ -33,4 +35,23 @@ class ForeCastViewModel(
                 { errorRes.value = R.string.get_forecast_error })
             .addTo(compositeDisposable)
     }
+
+   /* fun get5DaysForecasts(id: Long) {
+        getFiveDaysForecastsUseCase.build(id)
+            .subscribeOn(io)
+            .observeOn(main)
+            .doOnSubscribe { citForecasts.postValue(CityForeCastStateModel.Loading(true)) }
+            .doOnTerminate { citForecasts.postValue(CityForeCastStateModel.Loading(false)) }
+            .subscribe(
+                { citForecasts.value = CityForeCastStateModel.Data(it) },
+                { citForecasts.value = CityForeCastStateModel.Error(it)})
+            .addTo(compositeDisposable)
+    }*/
 }
+
+/*
+sealed class CityForeCastStateModel {
+    class Loading(val isLoading: Boolean) : CityForeCastStateModel()
+    class Error(val error: Throwable) : CityForeCastStateModel()
+    class Data(val data: List<ForecastEntity>) : CityForeCastStateModel()
+}*/

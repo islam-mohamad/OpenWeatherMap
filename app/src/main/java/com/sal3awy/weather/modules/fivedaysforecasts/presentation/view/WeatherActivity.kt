@@ -11,7 +11,6 @@ import com.sal3awy.weather.core.visible
 import com.sal3awy.weather.modules.fivedaysforecasts.domain.entity.ForecastEntity
 import com.sal3awy.weather.modules.fivedaysforecasts.presentation.viewmodel.ForeCastViewModel
 import kotlinx.android.synthetic.main.activity_weather.*
-import kotlin.math.log
 
 private const val TAG = "WeatherActivity"
 
@@ -32,6 +31,19 @@ class WeatherActivity : AppCompatActivity() {
         viewModel.isLoading.observe(this, ::setLoading)
         viewModel.errorRes.observe(this, ::showError)
         viewModel.citForecastsLiveData.observe(this, ::bindForeCast)
+       /* viewModel.citForecasts.observe(this, {
+            when(it){
+                is CityForeCastStateModel.Error ->{
+                    showError(it.error)
+                }
+                is CityForeCastStateModel.Loading ->{
+                   setLoading(it.isLoading)
+                }
+                is CityForeCastStateModel.Data ->{
+                    bindForeCast(it.data)
+                }
+            }
+        })*/
     }
 
     private fun setLoading(isLoading: Boolean) {
