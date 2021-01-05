@@ -2,23 +2,23 @@ package com.sal3awy.weather.modules.fivedaysforecasts.presentation.view
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.google.android.material.snackbar.Snackbar
 import com.sal3awy.weather.R
-import com.sal3awy.weather.core.visible
+import com.sal3awy.weather.core.presentation.visible
 import com.sal3awy.weather.modules.fivedaysforecasts.domain.entity.ForecastEntity
 import com.sal3awy.weather.modules.fivedaysforecasts.presentation.viewmodel.ForeCastViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_weather.*
 
 private const val TAG = "WeatherActivity"
 
+@AndroidEntryPoint
 class WeatherActivity : AppCompatActivity() {
 
-    private val viewModel by lazy {
-        ViewModelProvider(this).get(ForeCastViewModel::class.java)
-    }
+    private val viewModel: ForeCastViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,19 +31,6 @@ class WeatherActivity : AppCompatActivity() {
         viewModel.isLoading.observe(this, ::setLoading)
         viewModel.errorRes.observe(this, ::showError)
         viewModel.citForecastsLiveData.observe(this, ::bindForeCast)
-       /* viewModel.citForecasts.observe(this, {
-            when(it){
-                is CityForeCastStateModel.Error ->{
-                    showError(it.error)
-                }
-                is CityForeCastStateModel.Loading ->{
-                   setLoading(it.isLoading)
-                }
-                is CityForeCastStateModel.Data ->{
-                    bindForeCast(it.data)
-                }
-            }
-        })*/
     }
 
     private fun setLoading(isLoading: Boolean) {

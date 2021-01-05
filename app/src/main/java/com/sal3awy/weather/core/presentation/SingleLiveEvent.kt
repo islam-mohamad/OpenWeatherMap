@@ -1,4 +1,4 @@
-package com.sal3awy.weather.core
+package com.sal3awy.weather.core.presentation
 
 import android.util.Log
 import androidx.annotation.MainThread
