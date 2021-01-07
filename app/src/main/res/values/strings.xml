@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Weather Map</string>
     <string name="get_forecast_error">error</string>
+    <string name="write_a_city_name">write a city name</string>
+    <string name="something_went_wrong">Something Went Wrong</string>
     <!-- Strings used for fragments for navigation -->
 
 </resources>

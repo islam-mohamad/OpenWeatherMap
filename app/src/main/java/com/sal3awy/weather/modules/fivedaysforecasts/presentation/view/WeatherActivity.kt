@@ -1,7 +1,10 @@
 package com.sal3awy.weather.modules.fivedaysforecasts.presentation.view
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
@@ -23,8 +26,14 @@ class WeatherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
-        viewModel.getFiveDaysForecasts(347796)
-        viewModelObservers()
+        val cityId  = intent?.getLongExtra(CITY_ID__PARAM, 0)
+        cityId?.let {
+            viewModel.getFiveDaysForecasts(it)
+            viewModelObservers()
+        }?:run {
+            Toast.makeText(this, "Invalid City Id", Toast.LENGTH_SHORT).show()
+            finish()
+        }
     }
 
     private fun viewModelObservers() {
@@ -46,5 +55,14 @@ class WeatherActivity : AppCompatActivity() {
         forecastsList.forEach { listLog += "\n$it" }
         Log.d(TAG, "cityForecast: $listLog")
         forecastTV.text = listLog
+    }
+
+    companion object {
+        private const val CITY_ID__PARAM = "CITY_ID__PARAM"
+        fun startInstance(activity: Activity, params: Long) {
+            val intent = Intent(activity, WeatherActivity::class.java)
+            intent.putExtra(CITY_ID__PARAM, params)
+            activity.startActivity(intent)
+        }
     }
 }
