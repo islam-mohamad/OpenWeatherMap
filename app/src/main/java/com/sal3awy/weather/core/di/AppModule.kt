@@ -56,4 +56,9 @@ object AppModule {
     @Provides
     @Named("mainScheduler")
     fun mainScheduler(): Scheduler = AndroidSchedulers.mainThread()
+
+    @Singleton
+    @Provides
+    @Named("computationScheduler")
+    fun computationScheduler(): Scheduler = Schedulers.computation()
 }

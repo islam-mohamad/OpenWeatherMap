@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.sal3awy.weather.R
-import com.sal3awy.weather.modules.city.presentation.CitiesViewModel
+import com.sal3awy.weather.core.presentation.visible
+import com.sal3awy.weather.modules.city.presentation.viewmodel.CitiesViewModel
 import com.sal3awy.weather.modules.fivedaysforecasts.presentation.view.WeatherActivity
 import com.sal3awy.weather.modules.fivedaysforecasts.presentation.view.adapter.CitiesAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +27,7 @@ class CitiesActivity : AppCompatActivity() {
         initViews()
         actions()
         viewModelObservers()
+//        viewModel.search("")
     }
 
     private fun initViews() {
@@ -50,13 +52,16 @@ class CitiesActivity : AppCompatActivity() {
     }
 
     private fun viewModelObservers() {
+        viewModel.isLoadingLiveData.observe(this, ::setLoading)
         viewModel.citiesListLiveData.observe(this) { adapter.swap(it) }
-        viewModel.errorLiveData.observe(this) {
-            Snackbar.make(
-                weatherParentView,
-                it,
-                Snackbar.LENGTH_SHORT
-            ).show()
-        }
+        viewModel.errorLiveData.observe(this, ::showError)
+    }
+
+    private fun showError(stringRes: Int) {
+        Snackbar.make(weatherParentView, stringRes, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        citiesProgress.visible(isLoading)
     }
 }

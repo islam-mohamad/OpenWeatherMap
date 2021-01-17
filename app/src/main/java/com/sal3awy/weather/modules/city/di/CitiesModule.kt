@@ -3,7 +3,9 @@ package com.sal3awy.weather.modules.city.di
 import android.content.Context
 import com.sal3awy.weather.modules.city.data.repository.CityRepositoryImpl
 import com.sal3awy.weather.modules.city.data.sources.CitiesLocalDS
+import com.sal3awy.weather.modules.city.domain.interactor.SearchCityInteractor
 import com.sal3awy.weather.modules.city.domain.repository.CityRepository
+import com.sal3awy.weather.modules.city.domain.usecases.SearchCityUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -19,6 +21,10 @@ abstract class CitiesModule {
     @ActivityScoped
     @Binds
     abstract fun cityRepo(impl: CityRepositoryImpl): CityRepository
+
+    @ActivityScoped
+    @Binds
+    abstract fun searchCityUseCase(interactor: SearchCityInteractor): SearchCityUseCase
 
     companion object {
         @ActivityScoped
